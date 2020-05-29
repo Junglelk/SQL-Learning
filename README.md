@@ -4,6 +4,8 @@
 
 本文参照于《SQL基础教程》，使用的DBMS为PostgreSQL，版本为12.
 
+## [数据库和SQL](https://github.com/Junglelk/SQL-Learning/tree/chapter01)
+
 ## 关系型数据库系统
 
 数据库系统*database system* 由数据库、存储和管理数据库中数据的软件，以及显示数据并使用户能够与数据库系统进行交互的应用程序构成。
