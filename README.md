@@ -6,7 +6,7 @@
 
 ## [数据库和SQL](https://github.com/Junglelk/SQL-Learning/tree/chapter01)
 
-##[查询基础](https://github.com/Junglelk/SQL-Learning/tree/chapter02) 
+## [查询基础](https://github.com/Junglelk/SQL-Learning/tree/chapter02) 
 
 ## 关系型数据库系统
 
