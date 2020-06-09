@@ -8,6 +8,7 @@
 
 ## [查询基础](https://github.com/Junglelk/SQL-Learning/tree/chapter02) 
 ## [聚合和排序](https://github.com/Junglelk/SQL-Learning/tree/chapter03)
+## [数据更新](https://github.com/Junglelk/SQL-Learning/blob/chapter04/README.md)
 ## 关系型数据库系统
 
 数据库系统*database system* 由数据库、存储和管理数据库中数据的软件，以及显示数据并使用户能够与数据库系统进行交互的应用程序构成。
