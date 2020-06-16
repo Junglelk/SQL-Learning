@@ -10,6 +10,7 @@
 ## [数据更新](https://github.com/Junglelk/SQL-Learning/blob/chapter04/README.md)
 ## [复杂查询](https://github.com/Junglelk/SQL-Learning/blob/chapter05/README.md)
 ## [函数、谓词、CASE表达式](https://github.com/Junglelk/SQL-Learning/blob/chapter06/README.md)
+## [集合运算](https://github.com/Junglelk/SQL-Learning/blob/chapter07/README.md)
 
 ## 关系型数据库系统
 
