@@ -4,14 +4,15 @@
 
 本文参照于《SQL基础教程》，使用的DBMS为PostgreSQL，版本为12.
 
-## [数据库和SQL](https://github.com/Junglelk/SQL-Learning/blob/chapter01/README.md)
-## [查询基础](https://github.com/Junglelk/SQL-Learning/blob/chapter02/README.md) 
-## [聚合和排序](https://github.com/Junglelk/SQL-Learning/blob/chapter03/README.md)
-## [数据更新](https://github.com/Junglelk/SQL-Learning/blob/chapter04/README.md)
-## [复杂查询](https://github.com/Junglelk/SQL-Learning/blob/chapter05/README.md)
-## [函数、谓词、CASE表达式](https://github.com/Junglelk/SQL-Learning/blob/chapter06/README.md)
-## [集合运算](https://github.com/Junglelk/SQL-Learning/blob/chapter07/README.md)
-## [SQL高级处理](https://github.com/Junglelk/SQL-Learning/blob/chapter08/README.md)
+## [第一章 数据库和SQL](https://github.com/Junglelk/SQL-Learning/blob/chapter01/README.md)
+## [第二章 查询基础](https://github.com/Junglelk/SQL-Learning/blob/chapter02/README.md) 
+## [第三章 聚合和排序](https://github.com/Junglelk/SQL-Learning/blob/chapter03/README.md)
+## [第四章 数据更新](https://github.com/Junglelk/SQL-Learning/blob/chapter04/README.md)
+## [第五章 复杂查询](https://github.com/Junglelk/SQL-Learning/blob/chapter05/README.md)
+## [第六章 函数、谓词、CASE表达式](https://github.com/Junglelk/SQL-Learning/blob/chapter06/README.md)
+## [第七章 集合运算](https://github.com/Junglelk/SQL-Learning/blob/chapter07/README.md)
+## [第八章 SQL高级处理](https://github.com/Junglelk/SQL-Learning/blob/chapter08/README.md)
+## [第九章 通过应用程序连接数据库](https://github.com/Junglelk/SQL-Learning/blob/chapter09/README.md)
 ## 关系型数据库系统
 
 数据库系统*database system* 由数据库、存储和管理数据库中数据的软件，以及显示数据并使用户能够与数据库系统进行交互的应用程序构成。
