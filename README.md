@@ -8,7 +8,7 @@
 * ODBC-*Open DataBase Connectivity*
 * JDBC-*Java DataBase Connectivity*
 
-本次使用JDBC进行学习。　　
+本次使用JDBC进行学习。  
 JDBC版本为postgresql-42.2.14.jar  
 Java版本为Java8
 
@@ -16,9 +16,9 @@ Java版本为Java8
 
 由于已经学过Java，仅记录本书内的一些注意事项
 
-**法则 9-1** 执行Java程序前，必须对源代码进行编译。
-**法则 9-2** Java源代码中保留字要区分大小写，这是它和数据库的不同点之一。
-**法则 9-3** Java源码中不能出现全角字符/全角空格(注释除外)。
+**法则 9-1** 执行Java程序前，必须对源代码进行编译。  
+**法则 9-2** Java源代码中保留字要区分大小写，这是它和数据库的不同点之一。  
+**法则 9-3** Java源码中不能出现全角字符/全角空格(注释除外)。  
 
 ## 通过Java连接PostgreSQL
 
