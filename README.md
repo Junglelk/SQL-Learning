@@ -1,58 +1,247 @@
-# SQL基础教程
+# 通过应用程序连接数据库
 
-## 前言
+## 数据库世界和应用程序世界的连接
 
-本文参照于《SQL基础教程》，使用的DBMS为PostgreSQL，版本为12.
+应用和数据库靠*驱动*连接，驱动是个很小的程序，是连接两个世界的桥梁。  
+驱动的有两种:
 
-## 关系型数据库系统
+* ODBC-*Open DataBase Connectivity*
+* JDBC-*Java DataBase Connectivity*
 
-数据库系统*database system* 由数据库、存储和管理数据库中数据的软件，以及显示数据并使用户能够与数据库系统进行交互的应用程序构成。
+本次使用JDBC进行学习。　　
+JDBC版本为postgresql-42.2.14.jar  
+Java版本为Java8
 
-*数据库* 是由构成信息的数据组成的存储。而MySQL、Oracle等是数据库管理系统(*database management system*, DBMS)软件。DBMS是为专业程序设计人员使用而设计的，并不适用于普通用户。需要在DBMS上搭建应用程序，才能使用户访问和更新数据库  
-大多数数据库系统都是***关系数据库系统*** (*relational database system*)，这个系统基于关系数据模型，这个模型有三要素：结构、完整性和语言。
+## Java基础
 
-* 结构 *structure*
-  * 定义数据表示
-* 完整性 *integrity*
-  * 给出一些对数据的约束
-* 语言 *language*
-  * 提供了访问和操纵数据的手段
+由于已经学过Java，仅记录本书内的一些注意事项
 
-### 关系结构
+**法则 9-1** 执行Java程序前，必须对源代码进行编译。
+**法则 9-2** Java源代码中保留字要区分大小写，这是它和数据库的不同点之一。
+**法则 9-3** Java源码中不能出现全角字符/全角空格(注释除外)。
 
-一个关系实际上是一个没有重复行的表格。表的一行表示一条*记录*，表达一列表示该记录中的一个*属性的值*。  
-在关系型数据库理论中，一行称为一个*元组*(tuple),一列称为一个*属性* (attribute)。
-表描述数据之间的关系。表中的每一行表示相互关联的数据构成的一条记录。不同表格的数据可以通过共同的属性也可能相互关联。例如学生表和社保表，均共有身份号码这个属性，那就能构建关联。
+## 通过Java连接PostgreSQL
 
-### 完整性约束
+```java
+import java.sql.*;
 
-完整性约束 *integrity constraint* 对表格加了一个条件，表中所有合法值都必须满足该条件。一般来说，有三种类型的约束：域约束、主键约束和外键约束。三种约束又分为两类：
+public class DBConnect1 {
+     public static void main(String[] args) throws Exception {
 
-* 内部关联型约束 *intrarelational constraint*:每个约束只涉及一个关系;
-  * 域约束*domain constraint*
-    * 规定一个属性的允许值。如，整数、浮点数、定长字符串和变长字符串，或数值的范围，值是否为null等；
-  * 主键约束 *primary key constraint*
-    * 超键 *superkey*: 是一个属性或一组属性，它唯一标识了一个关系。即没有两个记录有相同的超键值。由定义知，一个关系是由一组互相不同的记录组成的。关系中的所有属性的集合构成一个超键,但并不是说超键只能是所有属性的集合;
-    * 键 *key*:K是一个最小的超键，意思是K的所有真子集都不是超键，一个关系可以有几个键，这种情况下，每个键称为一个候选键*candidate key*;
-    * 主键*primary key*:是由数据库设计者指定的候选键之一，通常用来标识一个关系中的记录。
-* 外键约束 *foreign key constraint*
-  在关系数据库中，数据是相互关联的。关系中的记录是相互关联的，而不同关系中的记录通过它们的共同属性也是相互关联的。简单说，共同属性就是外键。外键约束 *foreign key constraint* 定义了关系之间的关系。
-  形式化说：
-  * 若FK是一个属性集，称FK是关系R的一个外键，它引用关系T前提是满足：
-      >FK中的属性与关系T中的主键具有相同的域；
-      >关系R中FK的非空值必须与关系T中的一个主键值相匹配。  则FK是关系R的一个外键，它引用关系T。  
-* 强制完整性约束
-  * 数据库管理系统强制执行完整性约束并且拒绝违反约束的操作。  
+          /* 1) PostgreSQL的连接信息 */
+          Connection con;
+          Statement st;
+          ResultSet rs;
 
-Q&A：  
+          String url = "jdbc:postgresql://localhost:5432/postgres";
+          String user = "postgres";
+          String password = "test";
+          /*此处的默认密码必须是安装Postgres时未更新，如果当初更改了默认密码，则此处应该改成相对应的密码，否则会无法连接数据库*/
 
-Q:什么是超键、候选键和主键？  
-A:超键：能唯一标志关系的属性，即有这些属性你就能认出是哪个关系，最大的超键是一个关系内所有的属性的集合。  
-候选键：有的关系中有一种唯一的属性或属性集合，其单独存在已经是最小的超键，其真子集无法被认定为超键，这时这种属性或属性集合被称为键，有多个键时，每个键被称为候选键。  
+          /* 2) 定义JDBC驱动 */
+          Class.forName("org.postgresql.Driver");
 
-Q:什么是外键?  
-A:两个关系的共同属性就是外键。
+          /* 3) 连接PostgreSQL */
+          con = DriverManager.getConnection(url, user, password);
+          st = con.createStatement();
 
-**法则 1-1** 关系数据库以行为单位读写数据。
+          /* 4) 执行SELECT语句 */
+          rs = st.executeQuery("SELECT 1 AS col_1");
 
-**法则 1-2** 一个单元格只能输入一个数据。
+          /* 5) 显示结果画面 */
+          rs.next();
+          System.out.print(rs.getInt("col_1"));
+
+          /* 6) 切断与PostgreSQL的连接 */
+          rs.close();
+          st.close();
+          con.close();
+     }
+}
+```
+
+运行该Java程序,使用控制台编译、运行即可
+
+```java
+//如果是直接仅使用控制台输入
+javac DBConnect1.java
+
+java -cp C:\PostgresSQL\jdbc\*;. DBConnect1
+/*"-cp"指的是classpath，用于指明类的路径。这个里面有两个类，一个是DBConnect1，  
+一个是驱动类，可以将驱动类添加至环境变量，或者使用eclipse创建项目时，  
+将驱动类引入项目*/
+```
+
+下面，实践对Product的操作
+
+```java
+import java.sql.*;
+
+public class DBConnect2{
+     public static void main(String[] args) throws Exception {
+
+          /* 1) PostgreSQL的连接信息 */
+          Connection con;
+          Statement st;
+          ResultSet rs;
+
+          String url = "jdbc:postgresql://localhost:5432/shop";
+          String user = "postgres";
+          String password = "test";
+          //此处密码应为自己设定的密码,安全起见，已被更换
+
+          /* 2) 定义JDBC驱动 */
+          Class.forName("org.postgresql.Driver");
+
+          /* 3) 连接PostgreSQL */
+          con = DriverManager.getConnection(url, user, password);
+          st = con.createStatement();
+
+          /* 4) 执行SELECT语句 */
+          rs = st.executeQuery("SELECT product_id, product_name FROM Product");
+
+          /* 5) 在画面中显示结果 */
+          while(rs.next()) {
+               System.out.print(rs.getString("product_id") + ", ");
+               System.out.println(rs.getString("product_name"));
+          }
+
+          /* 6) 切断与PostgreSQL的连接 */
+          rs.close();
+          st.close();
+          con.close();
+     }
+}
+//运行结果为
+
+0001, T恤
+0002, 打孔器
+0003, 运动T恤
+0004, 菜刀
+0005, 高压锅
+0006, 叉子
+0007, 擦菜板
+0008, 圆珠笔
+```
+
+**法则 9-4** 在Java等程序语言的世界中，每次只能访问一条数据。因此，在访问多条记录时，需要循环处理。  
+**法则 9-5** 通过使用驱动，程序可以执行包括SELECT、DELETE、UPDATE和INSERT在内的所有SQL语句。  
+
+### 习题
+
+* 9.1
+
+```java
+import java.sql.*;
+
+public class DBConnect4 {
+     public static void main(String[] args) throws Exception {
+
+        /* 1) PostgreSQL的连接信息 */
+        Connection con;
+        Statement st;
+
+        String url = "jdbc:postgresql://localhost:5432/shop";
+        String user = "postgres";
+        String password = "159753";
+
+        /* 2) 定义JDBC驱动 */
+        Class.forName("org.postgresql.Driver");
+
+        /* 3) 连接PostgreSQL */
+        con = DriverManager.getConnection(url, user, password);
+        st = con.createStatement();
+
+        /* 4) 执行SELECT语句 */
+        String[] sqlStrings = {"INSERT INTO Product VALUES('0001','T恤衫','衣服',1000,500,'2009-09-20');",
+               "INSERT INTO Product VALUES('0002','打孔器','办公用品',1000,500,'2009-09-11');",
+               "INSERT INTO Product VALUES('0003','运动T恤','衣服',4000,2800,NULL);",
+               "INSERT INTO Product VALUES('0004','菜刀','厨房用具',3000,2800,'2009-09-20');",
+               "INSERT INTO Product VALUES('0005','高压锅','厨房用具',6800,5000,'2009-01-15');",
+               "INSERT INTO Product VALUES('0006','叉子','厨房用具',500,NULL,'2009-09-20');",
+               "INSERT INTO Product VALUES('0007','擦菜板','厨房用具',880,790,'2009-04-28');",
+               "INSERT INTO Product VALUES('0008','圆珠笔','办公用品',100,NULL,'2009-11-11');"};
+        int delcnt=0;
+
+        for (int j = 0; j < sqlStrings.length; j++) {
+
+        delcnt += st.executeUpdate(sqlStrings[j]);
+
+          }
+
+
+        /* 5) 在画面中显示结果 */
+        System.out.print(delcnt+" 行添加");
+
+        /* 6) 切断与PostgreSQL的连接 */
+        st.close();
+        con.close();
+   }
+}
+
+```
+
+* 9.2
+
+```java
+import java.sql.*;
+
+public class DBConnect5 {
+     public static void main(String[] args) throws Exception {
+
+        /* 1) PostgreSQL的连接信息 */
+        Connection con;
+        Statement st;
+
+        String url = "jdbc:postgresql://localhost:5432/shop";
+        String user = "postgres";
+        String password = "159753";
+
+        /* 2) 定义JDBC驱动 */
+        Class.forName("org.postgresql.Driver");
+
+        /* 3) 连接PostgreSQL */
+        con = DriverManager.getConnection(url, user, password);
+        st = con.createStatement();
+
+        /* 4) 执行SELECT语句 */
+        int delcnt = st.executeUpdate("UPDATE Product SET product_name = 'Y恤衫',product_type = '衣服' WHERE product_id='0001';");
+
+        /* 5) 在画面中显示结果 */
+        System.out.print(delcnt+" 行已更新");
+
+        /* 6) 切断与PostgreSQL的连接 */
+        st.close();
+        con.close();
+   }
+}
+
+
+SELECT * FROM Product;
+ product_id | product_name | product_type | sale_price | purchase_price | regist_date
+------------+--------------+--------------+------------+----------------+-------------
+ 0002       | 打孔器       | 办公用品     |       1000 |            500 | 2009-09-11
+ 0003       | 运动T恤      | 衣服         |       4000 |           2800 |
+ 0004       | 菜刀         | 厨房用具     |       3000 |           2800 | 2009-09-20
+ 0005       | 高压锅       | 厨房用具     |       6800 |           5000 | 2009-01-15
+ 0006       | 叉子         | 厨房用具     |        500 |                | 2009-09-20
+ 0007       | 擦菜板       | 厨房用具     |        880 |            790 | 2009-04-28
+ 0008       | 圆珠笔       | 办公用品     |        100 |                | 2009-11-11
+ 0001       | T恤衫        | Y恤衫        |       1000 |            500 | 2009-09-20
+(8 行记录)
+--这里是第一次搞错了，把类别改成Y恤衫了。后证明可以一次修改两个属性
+
+SELECT * FROM Product;
+ product_id | product_name | product_type | sale_price | purchase_price | regist_date
+------------+--------------+--------------+------------+----------------+-------------
+ 0002       | 打孔器       | 办公用品     |       1000 |            500 | 2009-09-11
+ 0003       | 运动T恤      | 衣服         |       4000 |           2800 |
+ 0004       | 菜刀         | 厨房用具     |       3000 |           2800 | 2009-09-20
+ 0005       | 高压锅       | 厨房用具     |       6800 |           5000 | 2009-01-15
+ 0006       | 叉子         | 厨房用具     |        500 |                | 2009-09-20
+ 0007       | 擦菜板       | 厨房用具     |        880 |            790 | 2009-04-28
+ 0008       | 圆珠笔       | 办公用品     |        100 |                | 2009-11-11
+ 0001       | Y恤衫        | 衣服         |       1000 |            500 | 2009-09-20
+(8 行记录)
+--修改完成后的情况
+```

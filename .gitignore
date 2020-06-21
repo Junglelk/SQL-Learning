@@ -1,1 +1,5 @@
 *.class
+.gitignore
+.classpath
+.project
+.json
