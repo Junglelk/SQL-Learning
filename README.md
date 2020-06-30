@@ -54,20 +54,29 @@
 
 在创建表之前必须先**创建数据库**：
 语法
-<kbd>CREATE DATABASE <数据库名称>;</kbd>
+
+```xml
+CREATE DATABASE <数据库名称>;
+```
+
 代码清单
-<kbd>CREATE DATABASE shop;</kbd>
+```xml
+CREATE DATABASE shop;
+```
+
 实际开发中会有更多的内容，此处仅为最少的项目。
 
 ### 创建表
 
-<kbd>CREATE TABLE <表名><br>
-<列名1> <数据类型> <该列所需的约束>,<br>
-<列名2> <数据类型> <该列所需的约束>,<br>
-<列名3> <数据类型> <该列所需的约束>,<br>
-<列名4> <数据类型> <该列所需的约束>,<br>
-...<br>
-<该表的约束1>,<该表的约束2>,....);</kbd>
+```xml
+CREATE TABLE <表名>
+<列名1> <数据类型> <该列所需的约束>,
+<列名2> <数据类型> <该列所需的约束>,
+<列名3> <数据类型> <该列所需的约束>,
+<列名4> <数据类型> <该列所需的约束>,
+...
+<该表的约束1>,<该表的约束2>,....);
+```
 
 ### 命名规则
 
@@ -92,12 +101,18 @@
 
 约束是指除指定数据类型外，对列中存储的数据进行限制或追加的条件的功能。
 
-<kbd>product_id CHAR(4) NOT NULL;</kbd><br>
-<kbd>product_name VARCHAR(100) NOT NULL;</kbd><br>
-<kbd>PRODUCT_type VARCHAR(32) NOT NULL;</kbd><br>
+```xml
+product_id CHAR(4) NOT NULL;
+product_name VARCHAR(100) NOT NULL;
+PRODUCT_type VARCHAR(32) NOT NULL;
+```
+
 上面设置了NOT NULL约束。NULL代表空，前面加上NOT表示输入不许为空。如果输入为空，则会报错。
 
-<kbd>PRIMARY KEY (PRODUCT_ID));</kbd><br>
+```xml
+PRIMARY KEY (PRODUCT_ID));
+```
+
 设置**主键约束**。所谓键，就是在指定特定数据时使用的列的组合。主键就是可以特定一行数据(唯一确定一行数据)的列。
 
 ## 表的更新和删除
@@ -105,37 +120,53 @@
 ### 表的删除
 
 只需一句
-<kbd>DROP TABLE <表名>;</kbd><br>
+
+```xml
+DROP TABLE <表名>;
+```  
+
 删除Product表
-<kbd>DROP TABLE Product;</kbd><br>
+```xml
+DROP TABLE Product;
+```
 
 **法则 1-12** 删除的表无法恢复。
 (删库跑路！！！)
 
 ### 表定义的更新*ALTER　TABLE* 语句
 
-<kbd>ALTER TABLE <表名> ADD COLUMN<列的定义>;</kbd><br>
+```xml
+ALTER TABLE <表名> ADD COLUMN<列的定义>;
+```
+  
 >注：Oracle和SQL Server不用写COLUMN；
 >Oracle可同时添加多列
-><kbd>ALTER TABLE <表名> ADD (<列名>,<列名>,...);</kbd>
+>ALTER TABLE <表名> ADD (<列名>,<列名>,...);
 
 **法则 1-13** 表定义变更后无法恢复。
 
 ### 向表中插入数据
 
 此时仅尝试，具体插入等语句在第四章学习。
-<kbd>begin transaction;</kbd><br>
-<kbd>insert into Product values('0001','T恤衫','衣服',1000,50,'2009-09-20');</kbd><br>
-<kbd>insert into Product values('0002','打孔器','办公用品',500,320,'2009-09-11');</kbd><br>
-<kbd>insert into Product values('0003','运动T恤','衣服',4000,2800,NULL);</kbd><br>
-<kbd>insert into Product values('0004','菜刀','厨房用具',3000,2800,'2009-09-20');</kbd><br>
-<kbd>insert into Product values('0005','高压锅','厨房用具',6800,5000,'2009-01-15');</kbd><br>
-<kbd>insert into Product values('0006','叉子','厨房用具',500,NULL,'2009-09-20');</kbd><br>
-<kbd>insert into Product values('0007','擦菜板','厨房用具',880,790,'2008-04-28');</kbd><br>
-<kbd>insert into Product values('0008','圆珠笔','办公用品',100,NULL,'2009-11-11');</kbd><br>
-<kbd>commit;</kbd><br>
+
+```xml
+begin transaction;
+insert into Product values('0001','T恤衫','衣服',1000,50,'2009-09-20');
+insert into Product values('0002','打孔器','办公用品',500,320,'2009-09-11');
+insert into Product values('0003','运动T恤','衣服',4000,2800,NULL);
+insert into Product values('0004','菜刀','厨房用具',3000,2800,'2009-09-20');
+insert into Product values('0005','高压锅','厨房用具',6800,5000,'2009-01-15');
+insert into Product values('0006','叉子','厨房用具',500,NULL,'2009-09-20');
+insert into Product values('0007','擦菜板','厨房用具',880,790,'2008-04-28');
+insert into Product values('0008','圆珠笔','办公用品',100,NULL,'2009-11-11');
+commit;
+```
 
 begin transaction;表示开始插入行的开始，commit;表示确认插入的语句。
 
 **表的改名**
-<kbd>ALTER TABLE <当前表名> RENAME TO <目标表名></kbd>
+
+```xml
+ALTER TABLE <当前表名> RENAME TO <目标表名>
+```
+
