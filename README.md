@@ -6,8 +6,8 @@ SELECT语句是SQL中使用最多最基本的SQL语句。
 
 ### 列的查询
 
-<kbd>SELECT <列名>,...<br>
- FROM <表名>;</kbd><br>
+`SELECT <列名>,...
+ FROM <表名>;`<br>
  此SQL语句包含了SELECT、FROM两个子句。前者后面跟想要查询的列的名称，后者跟目标表的名称。
 
 ```SQL
